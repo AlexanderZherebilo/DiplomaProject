@@ -18,6 +18,11 @@ public class Language {
     public Language() {
     }
 
+    public Language(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
     public Long getId() {
         return id;
     }
