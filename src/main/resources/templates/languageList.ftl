@@ -3,6 +3,11 @@
 <@c.page "Список курсов">
     <#include "parts/navbar.ftl">
     <div class="row">
+        <div class="col-md-2">
+            <#if isAdmin>
+                <#include "parts/coursesMenu.ftl">
+            </#if>
+        </div>
         <div class="container col-md-10">
             <h1 class="text-center">Доступные языки программирования</h1>
             <div class="card-columns">
