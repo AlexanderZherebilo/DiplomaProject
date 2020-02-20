@@ -1,6 +1,7 @@
 package com.springproject.ZherebiloAV.controller;
 
 import com.springproject.ZherebiloAV.domain.Language;
+import com.springproject.ZherebiloAV.domain.Question;
 import com.springproject.ZherebiloAV.domain.Topic;
 import com.springproject.ZherebiloAV.service.LanguageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -38,7 +40,7 @@ public class LanguageController {
         return "topicsList";
     }
 
-    @GetMapping("topics/{topic}")
+    @GetMapping("courses/topics/{topic}")
     public String openTopic(Model model, @PathVariable Topic topic) {
         model.addAttribute("topic", topic);
         return "topic";
@@ -80,7 +82,7 @@ public class LanguageController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/courses/{language}/addTopic")
     public String addTopic(Model model, @PathVariable Language language) {
-
+        model.addAttribute("lang", language);
         return "addTopic";
     }
 
@@ -88,8 +90,8 @@ public class LanguageController {
     @PostMapping("courses/{language}/addTopic")
     public String saveTopic(
             @PathVariable Language language,
-            String name,
-            String theory
+            @RequestParam String name,
+            @RequestParam String theory
     ) {
         Topic topic = new Topic(name, theory);
         topic.setLanguage(language);

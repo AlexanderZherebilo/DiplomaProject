@@ -1,13 +1,18 @@
 <#import "parts/common.ftl" as c>
 <@c.page "${topic.name}">
     <#include "parts/navbar.ftl">
-<div class="container">
-    <div class="jumbotron">
-        ${topic.theory}
+<div class="row">
+    <div class="col-md-2">
+        <#if isAdmin>
+            <#include "parts/quizMenu.ftl">
+        </#if>
+    </div>
+    <div class="container">
+        <h1 class="text-center">${topic.name}</h1>
+        <div class="jumbotron">
+            ${topic.theory}
+        </div>
     </div>
 </div>
-<footer class="row justify-content-center bg-dark" style="position: absolute; bottom: 0; width: 100%;">
-    <p class="text-light">&copy; 2019 BSUIR, Zherebilo AV</p>
-</footer>
 
 </@c.page>

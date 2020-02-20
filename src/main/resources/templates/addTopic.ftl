@@ -3,7 +3,7 @@
 <@c.page "Добавление раздела">
     <#include "parts/navbar.ftl">
     <div class="container">
-        <h2>Добавление нового раздела</h2>
+        <h2>Добавление нового раздела языка ${lang.name}</h2>
         <form method="post">
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Название главы:</label>

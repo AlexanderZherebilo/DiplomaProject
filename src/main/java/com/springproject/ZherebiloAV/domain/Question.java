@@ -34,6 +34,10 @@ public class Question {
         return options;
     }
 
+    public boolean hasOptions() {
+        return options.isEmpty() ? false : true;
+    }
+
     public void setOptions(List<Option> options) {
         this.options = options;
     }

@@ -1,27 +1,27 @@
 <#import "parts/common.ftl" as c>
 <@c.page "${language.name}">
     <#include "parts/navbar.ftl">
-<div class="col-md-2">
+<div class="row">
+    <div class="col-md-2">
         <#if isAdmin>
             <#include "parts/topicsMenu.ftl">
         </#if>
-</div>
-<div class="container">
-    ${language.description}
-    <div class="jumbotron">
-        <ul>
-            <#list language.getTopics() as topic>
-                <li>
-                    <a href="topics/${topic.id}" class="hyperlink">
-                        ${topic.name}
-                    </a>
-                </li>
-            </#list>
-        </ul>
+    </div>
+    <div class="container">
+        <div class="border bg-warning">
+            <h1 class="text-center">${language.name}:</h1>
+            <span style="font-size: 17px">${language.description}</span>
+        </div>
+        <h1 class="text-center">Содержание</h1>
+        <div class="jumbotron">
+            <ul style="list-style-type: none">
+                <#list language.getTopics() as topic>
+                    <h3 class="text-center my-2">
+                        <li><a href="topics/${topic.id}" class="hyperlink">${topic.name}</a></li>
+                    </h3>
+                </#list>
+            </ul>
+        </div>
     </div>
 </div>
-<footer class="row justify-content-center bg-dark" style="position: absolute; bottom: 0; width: 100%;">
-    <p class="text-light">&copy; 2020 BSUIR, Zherebilo AV</p>
-</footer>
-
 </@c.page>
