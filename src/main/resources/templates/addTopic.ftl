@@ -12,6 +12,8 @@
                 </div>
             </div>
             <div class="row justify-content-center my-2">
+                <button type="button" class="btn btn-outline-secondary mx-1" title="Добавить знак < (начало тега) как обычный текст" onclick="addlf()"><</button>
+                <button type="button" class="btn btn-outline-secondary mx-1" title="Добавить знак > (конец тега) как обычный текст" onclick="addrg()">></button>
                 <button type="button" class="btn btn-outline-secondary mx-1" title="Добавить теги <b></b> в конец текста" onclick="bold()"><b>B</b></button>
                 <button type="button" class="btn btn-outline-secondary mx-1" title="Добавить теги <i></i> в конец текста" onclick="italic()"><i>I</i></button>
                 <button type="button" class="btn btn-outline-secondary mx-1" title="Добавить теги <s></s> в конец текста" onclick="strikethrough()"><s>S</s></button>
@@ -52,6 +54,12 @@
         }
         function centerstar() {
             document.getElementById('theory').value += "<span align='center'>***</span>";
+        }
+        function addlf() {
+            document.getElementById('theory').value += "&lt;";
+        }
+        function addrg() {
+            document.getElementById('theory').value += "&gt;";
         }
     </script>
 

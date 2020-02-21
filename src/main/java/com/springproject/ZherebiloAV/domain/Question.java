@@ -22,6 +22,12 @@ public class Question {
     public Question() {
     }
 
+    public Question(String problem, List<Option> options, String answer) {
+        this.problem = problem;
+        this.options = options;
+        this.answer = answer;
+    }
+
     public String getProblem() {
         return problem;
     }

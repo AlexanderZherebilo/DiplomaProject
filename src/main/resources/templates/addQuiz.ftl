@@ -16,10 +16,8 @@
         <tr>
             <td>${question.problem}</td>
             <td>
-                <#if question.getOptions() != null>
+                <#if question.hasOptions()>
                     <#list question.options as option>${option.name}<#sep>, </#list>
-                <#else>
-                    <b>Без вариантов</b>
                 </#if>
             </td>
             <td>${question.answer}</td>
@@ -27,12 +25,11 @@
         </#list>
         </tbody>
     </table>
-    <#else> <h6 class="text-center">Вопросов пока нет. Глава отпускается без задания</h6>
     </#if>
     <a class="btn btn-primary my-3" data-toggle="collapse" href="#collapseQuiz" role="button" aria-expanded="false" aria-controls="collapseQuiz">Меню добавления вопроса</a>
     <div class="collapse <#if message??>show</#if>" id="collapseQuiz">
         <div class="form-group my-3">
-            <form method="post" class="border my-5">
+            <form method="post" onsubmit="return checkAns();" class="border my-5">
                 <h4 class="text-left mx-2">Добавить вопрос к заданию</h4>
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label mx-3">Вопрос:</label>
@@ -107,6 +104,22 @@
                 lst.removeChild(end);
             }
         }
+    }
+
+    function checkAns() {
+        var ans = document.getElementById("ans").value;
+        var opts = document.getElementsByName("options");
+        var type = document.getElementById("type").value;
+        var res = true;
+        for (var i=0; i< opts.length; i++) {
+            var o = opts[i].value;
+            if (o.localeCompare(ans) != 0 && type.localeCompare("with") == 0)
+                res = false;
+            else res = true;
+        }
+        if (res == false)
+            alert("Среди указанных вариантов ответа нет правильного");
+        return res;
     }
 </script>
 </@c.page>
