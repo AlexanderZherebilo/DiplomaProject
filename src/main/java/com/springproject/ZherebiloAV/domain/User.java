@@ -46,6 +46,9 @@ public class User implements UserDetails {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+        this.points = 0;
+        this.languages = 0;
+        this.topics = 0;
     }
 
     @Override

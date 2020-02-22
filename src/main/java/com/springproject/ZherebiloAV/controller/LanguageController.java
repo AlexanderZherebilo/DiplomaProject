@@ -3,10 +3,12 @@ package com.springproject.ZherebiloAV.controller;
 import com.springproject.ZherebiloAV.domain.Language;
 import com.springproject.ZherebiloAV.domain.Question;
 import com.springproject.ZherebiloAV.domain.Topic;
+import com.springproject.ZherebiloAV.domain.User;
 import com.springproject.ZherebiloAV.service.LanguageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -97,5 +99,18 @@ public class LanguageController {
         topic.setLanguage(language);
         languageService.saveTopic(topic);
         return "redirect:/courses/{language}";
+    }
+
+    @PostMapping("courses/topics/{topic}")
+    public String checkTest(
+            @AuthenticationPrincipal User user,
+            Model model,
+            @PathVariable Topic topic,
+            @RequestParam List<String> answers
+    ) {
+        if (languageService.checkTopic(topic, answers) == true)
+            languageService.addPoints(user, topic);
+        else languageService.addMistake(user, topic);
+        return "redirect:{topic}";
     }
 }

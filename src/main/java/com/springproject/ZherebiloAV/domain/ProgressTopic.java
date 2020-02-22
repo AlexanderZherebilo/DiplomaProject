@@ -22,6 +22,13 @@ public class ProgressTopic {
     public ProgressTopic() {
     }
 
+    public ProgressTopic(Topic topic, User user) {
+        this.topic = topic;
+        this.user = user;
+        this.errors = 0;
+        this.completed = false;
+    }
+
     public boolean isCompleted() {
         return completed;
     }
@@ -36,5 +43,21 @@ public class ProgressTopic {
 
     public void setErrors(Integer errors) {
         this.errors = errors;
+    }
+
+    public Topic getTopic() {
+        return topic;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

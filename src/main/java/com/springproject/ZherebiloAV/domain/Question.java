@@ -28,6 +28,10 @@ public class Question {
         this.answer = answer;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getProblem() {
         return problem;
     }

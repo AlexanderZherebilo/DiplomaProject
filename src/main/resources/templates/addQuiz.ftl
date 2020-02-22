@@ -17,7 +17,7 @@
             <td>${question.problem}</td>
             <td>
                 <#if question.hasOptions()>
-                    <#list question.options as option>${option.name}<#sep>, </#list>
+                    <#list question.options as option>${option.name}<#sep><br></#list>
                 </#if>
             </td>
             <td>${question.answer}</td>
