@@ -11,4 +11,6 @@ public interface ProgressTopicRepo extends CrudRepository<ProgressTopic, Long> {
     List<ProgressTopic> findAll();
 
     ProgressTopic findByTopicAndUser(Topic topic, User user);
+
+    List<ProgressTopic> findByUser(User user);
 }

@@ -110,12 +110,15 @@
         var ans = document.getElementById("ans").value;
         var opts = document.getElementsByName("options");
         var type = document.getElementById("type").value;
-        var res = true;
+        var res;
         for (var i=0; i< opts.length; i++) {
             var o = opts[i].value;
-            if (o.localeCompare(ans) != 0 && type.localeCompare("with") == 0)
+            if (o.localeCompare(ans) != 0 && type.localeCompare("with") === 0)
                 res = false;
-            else res = true;
+            else {
+                res = true;
+                break;
+            }
         }
         if (res == false)
             alert("Среди указанных вариантов ответа нет правильного");

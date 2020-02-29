@@ -1,9 +1,7 @@
 package com.springproject.ZherebiloAV.controller;
 
-import com.springproject.ZherebiloAV.domain.Language;
-import com.springproject.ZherebiloAV.domain.Question;
-import com.springproject.ZherebiloAV.domain.Topic;
-import com.springproject.ZherebiloAV.domain.User;
+import com.springproject.ZherebiloAV.domain.*;
+import com.springproject.ZherebiloAV.repos.ProgressTopicRepo;
 import com.springproject.ZherebiloAV.service.LanguageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +25,9 @@ public class LanguageController {
     @Autowired
     LanguageService languageService;
 
+    @Autowired
+    ProgressTopicRepo progressTopicRepo;
+
     @Value("${upload.path}")
     private String uploadPath;
 
@@ -43,7 +44,13 @@ public class LanguageController {
     }
 
     @GetMapping("courses/topics/{topic}")
-    public String openTopic(Model model, @PathVariable Topic topic) {
+    public String openTopic(
+            Model model,
+            @AuthenticationPrincipal User user,
+            @PathVariable Topic topic)
+    {
+        ProgressTopic pr = progressTopicRepo.findByTopicAndUser(topic, user);
+        model.addAttribute("progress", pr);
         model.addAttribute("topic", topic);
         return "topic";
     }

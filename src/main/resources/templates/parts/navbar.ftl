@@ -30,12 +30,12 @@
             </#if>
             <#if user??>
             <li class="nav-item">
-                <a class="nav-link" href="">Мой профиль</a>
+                <a class="nav-link" href="/myProfile">Мой профиль</a>
             </li>
             </#if>
         </ul>
 
-        <div class="navbar-text mr-3">${name}</div>
+        <div class="navbar-text mr-3">${name}<br><i>${user.getPoints()}</i></div>
         <@c.logout />
     </div>
 </nav>

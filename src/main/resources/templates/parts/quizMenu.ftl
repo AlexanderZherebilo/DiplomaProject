@@ -12,6 +12,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="/topics/${topic.id}/setQuiz">Настроить задание</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="">Редактировать статью</a>
+            </li>
         </ul>
     </div>
 </nav>

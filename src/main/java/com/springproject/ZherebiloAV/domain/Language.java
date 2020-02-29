@@ -12,7 +12,7 @@ public class Language {
     private String description;
     private String image;
 
-    @OneToMany(mappedBy = "language", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "language", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Topic> topics;
 
     public Language() {

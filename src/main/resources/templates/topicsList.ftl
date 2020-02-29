@@ -17,7 +17,7 @@
             <ul style="list-style-type: none">
                 <#list language.getTopics() as topic>
                     <h3 class="text-center my-2">
-                        <li><a href="topics/${topic.id}" class="hyperlink">${topic.name}</a></li>
+                        <li><a href="topics/${topic.id}" class="hyperlink my-5">${topic.name}</a></li>
                     </h3>
                 </#list>
             </ul>

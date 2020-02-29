@@ -1,5 +1,6 @@
 package com.springproject.ZherebiloAV.domain;
 
+import com.springproject.ZherebiloAV.repos.ProgressTopicRepo;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -32,7 +33,7 @@ public class User implements UserDetails {
     private Integer topics;
     private Integer languages;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<ProgressTopic> progresses;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
@@ -107,6 +108,42 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
+    }
+
+    public double getLangProgress(Language language) {
+        List<Topic> langTopics = language.getTopics();
+        List<Topic> complTopics = new ArrayList<>();
+        for (int i=0; i<this.progresses.size(); i++) {
+            if (this.progresses.get(i).getTopic().getLanguage().getId().equals(language.getId()) && this.progresses.get(i).isCompleted())
+                complTopics.add(this.progresses.get(i).getTopic());
+        }
+        double result = (double)complTopics.size() / (double) langTopics.size() * 100;
+        return result;
+    }
+
+    public int getTotalFinishedCourses(List<Language> langs) {
+        int result = 0;
+        for (Language lang : langs)
+            if (getLangProgress(lang) == 100)
+                result ++;
+        return result;
+    }
+
+    public int getTotalErrors() {
+        int result = 0;
+        for (int i=0; i<progresses.size(); i++)
+            result += progresses.get(i).getErrors();
+        return result;
+    }
+
+    public int getStartedTopics() {return progresses.size();}
+
+    public int getFinishedTopics() {
+        int result = 0;
+        for (ProgressTopic pr : progresses)
+            if (pr.isCompleted())
+                result ++;
+        return result;
     }
 
     public String getPassword() {
@@ -187,5 +224,13 @@ public class User implements UserDetails {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public List<ProgressTopic> getProgresses() {
+        return progresses;
+    }
+
+    public void setProgresses(List<ProgressTopic> progresses) {
+        this.progresses = progresses;
     }
 }

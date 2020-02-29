@@ -50,7 +50,6 @@ public class LanguageService {
         for (int i=0; i<answers.size(); i++) {
             if (!topic.getQuiz().get(i).getAnswer().equals(answers.get(i)))
                 res = false;
-            System.out.println("СРАВНЕНИЕ: " + topic.getQuiz().get(i).getAnswer() + " и " + answers.get(i));
         }
         return res;
     }
@@ -82,5 +81,36 @@ public class LanguageService {
         }
         progress.setErrors(progress.getErrors()+1);
         progressTopicRepo.save(progress);
+    }
+
+    public List<Language> getAllUsersLanguages(User user) {
+        List<Language> all = findAll();
+        List<ProgressTopic> progresses = user.getProgresses();
+        List<Language> nw = new ArrayList<>();
+        for (int i=0; i<all.size(); i++)
+            for (int j=0; j<progresses.size(); j++)
+                if (progresses.get(j).getTopic().getLanguage().getName().equals(all.get(i).getName())) {
+                    nw.add(all.get(i));
+                    all.remove(i);
+                }
+        return nw;
+    }
+
+    public List<Language> getNotEmptyCourses() {
+        List<Language> list = new ArrayList<>();
+        Iterable<Language> it = languageRepo.findAll();
+        for (Language e : it)
+            if (e.getTopics().size() != 0)
+                list.add(e);
+        return list;
+    }
+
+    public List<Language> getEmptyCourses() {
+        List<Language> list = new ArrayList<>();
+        Iterable<Language> it = languageRepo.findAll();
+        for (Language e : it)
+            if (e.getTopics().size() == 0)
+                list.add(e);
+        return list;
     }
 }
