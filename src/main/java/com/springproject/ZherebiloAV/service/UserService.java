@@ -11,7 +11,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -48,7 +50,6 @@ public class UserService implements UserDetailsService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setPoints(0);
         user.setTopics(0);
-        user.setLanguages(0);
 
         userRepo.save(user);
 
@@ -83,5 +84,13 @@ public class UserService implements UserDetailsService {
         userRepo.save(user);
 
         return true;
+    }
+
+    public List<User> findAll() {
+        List<User> list = new ArrayList<>();
+        Iterable<User> it = userRepo.findAll();
+        for (User e : it)
+            list.add(e);
+        return list;
     }
 }

@@ -55,7 +55,7 @@
                 </div>
             <div class="col-md-4 bg-warning border border-dark">
                 <h2 class="text-center">Личная статистика</h2>
-                <b>Текущее звание:</b> <br>
+                <b>Текущее звание:</b> <span class="text-info" style="font-size: 24px">${currentUser.getAchievement()}</span><br>
                 <b>Начато курсов: <span style="font-size: 20px">${startedLangs}</span>/${langNum}</b><br>
                 <b>Завершено курсов: <span class="text-success" style="font-size: 20px">${currentUser.getTotalFinishedCourses(userLangs)}</span>/${langNum}</b> <br>
                 <b>Начато тестов: <span style="font-size: 20px">${currentUser.getStartedTopics()}</span>/${topicNum}</b><br>

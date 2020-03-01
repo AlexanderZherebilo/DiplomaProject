@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class LanguageService {
@@ -83,15 +85,14 @@ public class LanguageService {
         progressTopicRepo.save(progress);
     }
 
-    public List<Language> getAllUsersLanguages(User user) {
+    public Set<Language> getAllUsersLanguages(User user) {
         List<Language> all = findAll();
         List<ProgressTopic> progresses = user.getProgresses();
-        List<Language> nw = new ArrayList<>();
+        Set<Language> nw = new HashSet<>();
         for (int i=0; i<all.size(); i++)
             for (int j=0; j<progresses.size(); j++)
                 if (progresses.get(j).getTopic().getLanguage().getName().equals(all.get(i).getName())) {
                     nw.add(all.get(i));
-                    all.remove(i);
                 }
         return nw;
     }

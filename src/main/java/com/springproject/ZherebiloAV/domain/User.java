@@ -31,7 +31,6 @@ public class User implements UserDetails {
 
     private Integer points;
     private Integer topics;
-    private Integer languages;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<ProgressTopic> progresses;
@@ -48,7 +47,6 @@ public class User implements UserDetails {
         this.username = username;
         this.password = password;
         this.points = 0;
-        this.languages = 0;
         this.topics = 0;
     }
 
@@ -146,6 +144,34 @@ public class User implements UserDetails {
         return result;
     }
 
+    public String getAchievement() {
+        if (isAdmin())
+            return "Администратор";
+        else {
+            if (points < 1000)
+                return "Новичок";
+            else if (points < 5000)
+                return "Скаут";
+            else if (points < 10000)
+                return "Продвинутый";
+            else return "Профи";
+        }
+    }
+
+    public String getFavouriteLanguage() {
+        Map<String, Integer> langs = new HashMap<>();
+        for (ProgressTopic p : progresses)
+            if (p.isCompleted()) {
+                if (!langs.containsKey(p.getTopic().getLanguage().getName()))
+                    langs.put(p.getTopic().getLanguage().getName(), 1);
+                else {
+                    int add = langs.get(p.getTopic().getLanguage().getName());
+                    langs.put(p.getTopic().getLanguage().getName(), add+1);
+                }
+            }
+        return langs.entrySet().stream().sorted(Map.Entry.<String, Integer>comparingByValue().reversed()).findFirst().get().getKey();
+    }
+
     public String getPassword() {
         return password;
     }
@@ -200,14 +226,6 @@ public class User implements UserDetails {
 
     public void setTopics(Integer topics) {
         this.topics = topics;
-    }
-
-    public Integer getLanguages() {
-        return languages;
-    }
-
-    public void setLanguages(Integer languages) {
-        this.languages = languages;
     }
 
     public String getName() {
