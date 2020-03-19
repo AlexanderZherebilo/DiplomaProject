@@ -51,7 +51,7 @@ public class UserController {
             return "settings";
         }
 
-        return "/logout";
+        return "redirect:/login";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")

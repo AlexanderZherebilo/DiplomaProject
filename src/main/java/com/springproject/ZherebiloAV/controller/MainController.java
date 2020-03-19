@@ -24,7 +24,7 @@ public class MainController {
 
     @GetMapping("/main")
     public String main(Model model) {
-
+        model.addAttribute("languages", languageService.findAll());
         return "main";
     }
 
