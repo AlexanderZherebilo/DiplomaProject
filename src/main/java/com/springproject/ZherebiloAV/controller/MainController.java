@@ -41,6 +41,6 @@ public class MainController {
         model.addAttribute("topicsWithout", topicService.getWithoutQuiz());
         model.addAttribute("notEmptyLangs", languageService.getNotEmptyCourses().size());
         model.addAttribute("langsWithout", languageService.getEmptyCourses());
-        return "myProfile";
+        return "profile";
     }
 }

@@ -12,6 +12,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="/courses/${language.id}/addTopic">Добавить главу</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/courses/${language.id}/editCourse">Редактировать язык</a>
+            </li>
         </ul>
     </div>
 </nav>

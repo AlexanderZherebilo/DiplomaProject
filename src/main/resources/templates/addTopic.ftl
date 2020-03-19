@@ -3,12 +3,12 @@
 <@c.page "Добавление раздела">
     <#include "parts/navbar.ftl">
     <div class="container">
-        <h2>Добавление нового раздела языка ${lang.name}</h2>
+        <h2><#if operation == "ADD">Добавление нового<#elseif operation == "EDIT">Редактирование</#if> раздела языка ${lang.name}</h2>
         <form method="post">
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Название главы:</label>
                 <div class="col-sm-3">
-                    <input type="text" name="name" class="form-control" required/>
+                    <input type="text" name="name" class="form-control" <#if operation == "EDIT">value="${topic.name}"</#if> required/>
                 </div>
             </div>
             <div class="row justify-content-center my-2">
@@ -25,11 +25,11 @@
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Теория:</label>
                 <div class="col">
-                    <textarea name="theory" id="theory" cols="4" rows="16" class="form-control"></textarea>
+                    <textarea name="theory" id="theory" cols="4" rows="16" class="form-control"><#if operation == "EDIT">${topic.theory}</#if></textarea>
                 </div>
             </div>
             <input type="hidden" name="_csrf" value="${_csrf.token}" />
-            <button class="btn btn-primary" type="submit">Добавить</button>
+            <button class="btn btn-primary" type="submit"><#if operation == "ADD">Добавить<#elseif operation == "EDIT">Сохранить</#if></button>
         </form>
     </div>
 

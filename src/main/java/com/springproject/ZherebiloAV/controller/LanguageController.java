@@ -3,6 +3,7 @@ package com.springproject.ZherebiloAV.controller;
 import com.springproject.ZherebiloAV.domain.*;
 import com.springproject.ZherebiloAV.repos.ProgressTopicRepo;
 import com.springproject.ZherebiloAV.service.LanguageService;
+import com.springproject.ZherebiloAV.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,6 +28,9 @@ public class LanguageController {
 
     @Autowired
     ProgressTopicRepo progressTopicRepo;
+
+    @Autowired
+    TopicService topicService;
 
     @Value("${upload.path}")
     private String uploadPath;
@@ -58,7 +62,7 @@ public class LanguageController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("courses/addLanguage")
     public String addCourse(Model model) {
-
+        model.addAttribute("operation", "ADD");
         return "addLanguage";
     }
 
@@ -70,20 +74,7 @@ public class LanguageController {
             @RequestParam("image") MultipartFile image
     ) throws IOException {
         Language lang = new Language(name, description);
-        if (image != null && !image.getOriginalFilename().isEmpty()) {
-            File uploadDir = new File(uploadPath);
-
-            if (!uploadDir.exists()) {
-                uploadDir.mkdir();
-            }
-
-            String uuidFile = UUID.randomUUID().toString();
-            String resultFilename = uuidFile + "," + image.getOriginalFilename();
-
-            image.transferTo(new File(uploadPath + "/" + resultFilename));
-
-            lang.setImage(resultFilename);
-        }
+        setFilePath(lang, image);
         languageService.saveCourse(lang);
         return "redirect:/courses";
     }
@@ -92,6 +83,7 @@ public class LanguageController {
     @GetMapping("/courses/{language}/addTopic")
     public String addTopic(Model model, @PathVariable Language language) {
         model.addAttribute("lang", language);
+        model.addAttribute("operation", "ADD");
         return "addTopic";
     }
 
@@ -111,13 +103,78 @@ public class LanguageController {
     @PostMapping("courses/topics/{topic}")
     public String checkTest(
             @AuthenticationPrincipal User user,
-            Model model,
             @PathVariable Topic topic,
             @RequestParam List<String> answers
     ) {
-        if (languageService.checkTopic(topic, answers) == true)
+        if (languageService.checkTopic(topic, answers))
             languageService.addPoints(user, topic);
         else languageService.addMistake(user, topic);
         return "redirect:{topic}";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("courses/topics/{topic}/editTopic")
+    public String editTopic(
+            @PathVariable Topic topic,
+            Model model
+    ) {
+        model.addAttribute("lang", topic.getLanguage());
+        model.addAttribute("operation", "EDIT");
+        return "addTopic";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("courses/topics/{topic}/editTopic")
+    public String updateTopic(
+            @PathVariable Topic topic,
+            @RequestParam String name,
+            @RequestParam String theory
+    ) {
+        topic.setName(name);
+        topic.setTheory(theory);
+        topicService.updateTopic(topic);
+        return "redirect:/courses/topics/{topic}";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("courses/{language}/editCourse")
+    public String editCourse(
+            @PathVariable Language language,
+            Model model
+    ) {
+        model.addAttribute("operation", "EDIT");
+        return "addLanguage";
+    }
+
+    @PreAuthorize(("hasAuthority('ADMIN')"))
+    @PostMapping("courses/{language}/editCourse")
+    public String updateCourse(
+            @PathVariable Language language,
+            @RequestParam String name,
+            @RequestParam String description,
+            @RequestParam(required = false) MultipartFile image
+    ) throws IOException {
+        language.setName(name);
+        language.setDescription(description);
+        setFilePath(language, image);
+        languageService.saveCourse(language);
+        return "redirect:/courses/{language}";
+    }
+
+    private void setFilePath(@PathVariable Language language, @RequestParam(required = false) MultipartFile image) throws IOException {
+        if (image != null && !image.getOriginalFilename().isEmpty()) {
+            File uploadDir = new File(uploadPath);
+
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir();
+            }
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFilename = uuidFile + "," + image.getOriginalFilename();
+
+            image.transferTo(new File(uploadPath + "/" + resultFilename));
+
+            language.setImage(resultFilename);
+        }
     }
 }

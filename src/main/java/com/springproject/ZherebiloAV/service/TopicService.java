@@ -4,6 +4,7 @@ import com.springproject.ZherebiloAV.domain.ProgressTopic;
 import com.springproject.ZherebiloAV.domain.Question;
 import com.springproject.ZherebiloAV.domain.Topic;
 import com.springproject.ZherebiloAV.domain.User;
+import com.springproject.ZherebiloAV.repos.LanguageRepo;
 import com.springproject.ZherebiloAV.repos.ProgressTopicRepo;
 import com.springproject.ZherebiloAV.repos.QuestionRepo;
 import com.springproject.ZherebiloAV.repos.TopicRepo;
@@ -15,6 +16,9 @@ import java.util.List;
 
 @Service
 public class TopicService {
+    @Autowired
+    LanguageRepo languageRepo;
+
     @Autowired
     TopicRepo topicRepo;
 
@@ -53,5 +57,14 @@ public class TopicService {
         for (Topic e : it)
             list.add(e);
         return list;
+    }
+
+    public void updateTopic(Topic topic) {
+        languageRepo.save(topic.getLanguage());
+        topicRepo.save(topic);
+    }
+
+    public void deleteQuestion(Question question) {
+        questionRepo.delete(question);
     }
 }

@@ -29,7 +29,7 @@
                 <div class="col-md-3 bg-light text-dark border border-dark">
                     <b>Логин:</b> ${currentUser.username}<br>
                     <b>Email:</b> ${currentUser.email}<br><br>
-                    <#if isAdmin>
+                    <#if currentUser.isAdmin()>
                         <i>Вы являетесь администратором сайта. Вам доступно управление
                         материалами для изучения языков программирования. Перейдите в раздел
                         <a href="/courses">курсы</a> чтобы внести правки в материалы</i><br><br>
@@ -42,7 +42,7 @@
                                 </#list>
                             </ol>
                         </#if>
-                        <p class="border well p-1">На данный момент <span style="font-size: 20px">${notEmptyLangs}</span> из <span style="font-size: 20px">${langNum}</span> содержат теоретический материал</p>
+                        <p class="border well p-1">На данный момент <span style="font-size: 20px">${notEmptyLangs}</span> из <span style="font-size: 20px">${langNum}</span> курсов содержат теоретический материал</p>
                         <#if notEmptyLangs != langNum>
                             <h5 class="text-danger">Заполните материалами следующие курсы языков:</h5>
                             <ol>

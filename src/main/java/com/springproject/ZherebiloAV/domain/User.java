@@ -1,6 +1,5 @@
 package com.springproject.ZherebiloAV.domain;
 
-import com.springproject.ZherebiloAV.repos.ProgressTopicRepo;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -21,7 +20,6 @@ public class User implements UserDetails {
     private String password;
     private boolean active;
     @Email
-    @NotBlank(message = "Email не может быть пустым")
     private String email;
 
     private String name;
@@ -250,5 +248,19 @@ public class User implements UserDetails {
 
     public void setProgresses(List<ProgressTopic> progresses) {
         this.progresses = progresses;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", active=" + active +
+                ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", activationCode='" + activationCode + '\'' +
+                '}';
     }
 }

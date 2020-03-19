@@ -58,6 +58,35 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
+    public boolean updateUser(String name, String surname, String username, String password, String email, Long id) {
+        List<User> allUsers = findAll();
+        User nUser = new User();
+
+        for (User u : allUsers) {
+            if (u.getId() == id)
+                nUser = u;
+
+            if (u.getUsername().equals(username) && u.getId() != id) {
+                return false;
+            }
+        }
+
+        nUser.setEmail(email);
+        nUser.setActive(false);
+        nUser.setActivationCode(UUID.randomUUID().toString());
+
+        nUser.setName(name);
+        nUser.setSurname(surname);
+        nUser.setUsername(username);
+        nUser.setPassword(passwordEncoder.encode(password));
+
+        userRepo.save(nUser);
+
+        updatingMessage(nUser);
+
+        return true;
+    }
+
     private void sendMessage(User user) {
         if (!StringUtils.isEmpty(user.getEmail())) {
             String message = String.format(
@@ -69,6 +98,20 @@ public class UserService implements UserDetailsService {
             );
 
             mailSender.send(user.getEmail(), "Код активации аккаунта", message);
+        }
+    }
+
+    private void updatingMessage(User user) {
+        if (!StringUtils.isEmpty(user.getEmail())) {
+            String message = String.format(
+                    "Приветствуем, %s! \n" +
+                            "В ваши данные были внесены изменения. Требуется повторная активация аккаунта. Перейдите по ссылке: " +
+                            "http://localhost:8080/activate/%s",
+                    user.getUsername(),
+                    user.getActivationCode()
+            );
+
+            mailSender.send(user.getEmail(), "Повторная активация аккаунта", message);
         }
     }
 

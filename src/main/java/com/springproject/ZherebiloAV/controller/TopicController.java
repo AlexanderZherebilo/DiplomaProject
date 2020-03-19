@@ -56,4 +56,13 @@ public class TopicController {
         topicService.saveQuestion(question);
         return "redirect:/courses/topics/{topic}";
     }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("topics/{topic}/setQuiz/delete/{question}")
+    public String deleteQuestion(
+            @PathVariable Question question
+    ) {
+        topicService.deleteQuestion(question);
+        return "redirect:/topics/{topic}/setQuiz";
+    }
 }

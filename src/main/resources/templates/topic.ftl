@@ -60,9 +60,21 @@
                     </div>
                 </form>
             <#elseif topic.hasQuestions()>
-                <h6 class="text-center">Задание пройдено</h6>
+                <h3 class="text-center">Задание пройдено!</h3>
+                <h1 class="text-center text-success" style="font-size: 55px">
+                <#if progress.errors == 0>
+                    +100 очков
+                <#elseif progress.errors == 1>
+                    +50 очков
+                <#else>
+                    +25 очков
+                </#if></h1><br>
+                    <h6 class="text-center">
+                        <a href="../../courses/${topic.language.id}"><img src="/img/${topic.language.image}" height="75px" width="75px" style="border-radius: 100%"></a><br>
+                        Курс завершён на: <b>${user.getLangProgress(topic.language)}%</b>
+                    </h6>
             <#else>
-                <h6 class="text-center">Для этой темы задание ещё не создано</h6>
+                <h2 class="text-center">Для этой темы задание ещё не создано</h2>
             </#if>
         </div>
     </div>

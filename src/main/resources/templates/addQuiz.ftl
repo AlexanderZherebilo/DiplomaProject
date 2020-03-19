@@ -21,6 +21,7 @@
                 </#if>
             </td>
             <td>${question.answer}</td>
+            <td><a href="setQuiz/delete/${question.id}/"><img src="/img/deleteicon.png" width="30px" height="30px" title="Удалить вопрос"></a></td>
         </tr>
         </#list>
         </tbody>

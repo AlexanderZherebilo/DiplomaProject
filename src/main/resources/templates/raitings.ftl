@@ -3,4 +3,5 @@
 <@c.page "Рейтинг">
     <#include "parts/navbar.ftl">
 
+
 </@c.page>
