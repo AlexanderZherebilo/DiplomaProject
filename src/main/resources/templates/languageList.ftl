@@ -20,6 +20,10 @@
                             <a href="courses/${language.id}" class="hyperlink">
                                 <h4 class="card-title text-center">${language.name}</h4>
                             </a>
+                            <h6 class="text-center">Прогресс:
+                                ${user.getLangProgress(language)} %
+                            <progress max="100" value="${user.getLangProgress(language)}">
+                            </progress></h6>
                         </div>
                     </div>
                 </#list>

@@ -20,9 +20,6 @@
                 <a class="nav-link" href="/userList">Пользователи</a>
             </li>
             </#if>
-            <li class="nav-item">
-                <a class="nav-link" href="/raiting">Рейтинги</a>
-            </li>
             <#if user??>
             <li class="nav-item">
                 <a class="nav-link" href="/settings">Настройки аккаунта</a>

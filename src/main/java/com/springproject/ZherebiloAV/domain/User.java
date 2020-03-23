@@ -1,5 +1,6 @@
 package com.springproject.ZherebiloAV.domain;
 
+import com.springproject.ZherebiloAV.repos.ProgressTopicRepo;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -7,6 +8,8 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.*;
+
+import static java.lang.Double.NaN;
 
 @Entity
 @Table(name = "usr")
@@ -109,11 +112,14 @@ public class User implements UserDetails {
     public double getLangProgress(Language language) {
         List<Topic> langTopics = language.getTopics();
         List<Topic> complTopics = new ArrayList<>();
+        double result = 0;
         for (int i=0; i<this.progresses.size(); i++) {
             if (this.progresses.get(i).getTopic().getLanguage().getId().equals(language.getId()) && this.progresses.get(i).isCompleted())
                 complTopics.add(this.progresses.get(i).getTopic());
         }
-        double result = (double)complTopics.size() / (double) langTopics.size() * 100;
+        result = (double)complTopics.size() / (double) langTopics.size() * 100;
+        if (langTopics.size() == 0)
+            result = 0;
         return result;
     }
 
@@ -122,6 +128,17 @@ public class User implements UserDetails {
         for (Language lang : langs)
             if (getLangProgress(lang) == 100)
                 result ++;
+        return result;
+    }
+
+    public boolean isTopicCompleted(Topic topic) {
+        boolean result = false;
+        for (ProgressTopic pr : getProgresses()) {
+            if (pr.getTopic().getId() == topic.getId() && pr.isCompleted()) {
+                result = true;
+                break;
+            }
+        }
         return result;
     }
 

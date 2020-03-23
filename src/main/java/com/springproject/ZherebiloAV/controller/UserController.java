@@ -69,12 +69,6 @@ public class UserController {
         return "userList";
     }
 
-    @GetMapping("/raiting")
-    public String getRaiting(Model model) {
-
-        return "raitings";
-    }
-
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/userProfile/{user}")
     public String userProfile (Model model, @PathVariable User user) {
